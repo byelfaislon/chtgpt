@@ -22,8 +22,8 @@ def webhook():
                 {"role": "user", "content": user_message}
             ]
         )
-        # Retorna a resposta gerada pelo GPT-4
-        reply = response.choices[0].message["content"]
+        # Corrige a forma de acessar a resposta gerada pelo modelo
+        reply = response['choices'][0]['message']['content']
         return jsonify({"reply": reply})
     except Exception as e:
         # Em caso de erro, retorna a mensagem de erro

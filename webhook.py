@@ -20,10 +20,10 @@ def webhook():
             messages=[
                 {"role": "system", "content": "Você é um assistente virtual amigável."},
                 {"role": "user", "content": user_message}
-            ],
+            ]
         )
         # Retorna a resposta gerada pelo GPT-4
-        reply = response['choices'][0]['message']['content']
+        reply = response.choices[0].message["content"]
         return jsonify({"reply": reply})
     except Exception as e:
         # Em caso de erro, retorna a mensagem de erro

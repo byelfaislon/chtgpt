@@ -22,17 +22,12 @@ def webhook():
                 {"role": "user", "content": user_message}
             ],
         )
-
-        # Extrai a resposta gerada
+        # Retorna a resposta gerada pelo GPT-4
         reply = response['choices'][0]['message']['content']
-
-        # Retorna a resposta gerada
         return jsonify({"reply": reply})
-
     except Exception as e:
-        # Retorna o erro em caso de falha
+        # Em caso de erro, retorna a mensagem de erro
         return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
-    # Define o host e a porta para o Flask
     app.run(host='0.0.0.0', port=5000)

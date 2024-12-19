@@ -14,20 +14,26 @@ def webhook():
     user_message = data.get('message', '')
 
     try:
-        # Envia a mensagem para o modelo GPT-4
+        # Nova chamada compatível com a versão recente da API
         response = openai.ChatCompletion.create(
             model="gpt-4",
             messages=[
                 {"role": "system", "content": "Você é um assistente virtual amigável."},
-                {"role": "user", "content": user_message}
+                {"role": "user", "content": user_message},
             ],
+            temperature=0.7,  # Controle de criatividade (0.0 a 1.0)
         )
-        # Retorna a resposta gerada pelo GPT-4
+        
+        # Extrai a resposta gerada pelo modelo
         reply = response['choices'][0]['message']['content']
         return jsonify({"reply": reply})
+    except openai.error.OpenAIError as e:
+        # Tratamento de erros da API OpenAI com logs detalhados
+        print(f"Erro na API OpenAI: {e}")
+        return jsonify({"error": str(e)}), 500
     except Exception as e:
-        # Log detalhado em caso de erro
-        print(f"Erro ao chamar OpenAI API: {e}")
+        # Tratamento genérico de outros erros
+        print(f"Erro inesperado: {e}")
         return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
